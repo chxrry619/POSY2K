@@ -1,0 +1,43 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.chrrysdump.pos'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.chrrysdump.pos'
+        minSdk 24          // Android 7.0 o más nuevo
+        targetSdk 34
+        // Sube estos números cada vez que hagas una versión nueva
+        versionCode 1
+        versionName '1.0'
+    }
+
+    // Firma fija: así cada APK nuevo se instala ENCIMA del anterior
+    // sin perder tus datos. No pierdas ni cambies este archivo.
+    signingConfigs {
+        chrrysdump {
+            storeFile file('chrrysdump.keystore')
+            storePassword '6c75e57d744667a467bc5912'
+            keyAlias 'chrrysdump'
+            keyPassword '6c75e57d744667a467bc5912'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.chrrysdump
+        }
+        debug {
+            signingConfig signingConfigs.chrrysdump
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#120808">
+  <title>ChrrysDump</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body class="fondo-retro">
+
+  <!-- ===== Decoración de fondo (destellos y cuadritos) ===== -->
+  <div class="deco" aria-hidden="true">
+    <i class="plus p1"></i><i class="plus p2"></i><i class="plus p3"></i><i class="plus p4"></i>
+    <i class="sq s1"></i><i class="sq s2"></i><i class="sq s3"></i>
+    <i class="star st1"></i><i class="star st2"></i>
+  </div>
+
+  <div class="page">
+
+    <!-- ===== Ventana principal: título, pestañas y "dirección" ===== -->
+    <header class="win">
+      <div class="titlebar">
+        <span class="ticon" aria-hidden="true"></span>
+        <span class="ttext" id="appTitle">ChrrysDump</span>
+        <span class="tbtns" aria-hidden="true"><span class="tb">_</span><span class="tb">□</span><span class="tb">×</span></span>
+      </div>
+      <nav class="tabs">
+        <button class="tab on" data-v="vender">Vender</button>
+        <button class="tab" data-v="inv">Inventario</button>
+        <button class="tab" data-v="ventas">Venta total diaria</button>
+        <button class="tab" data-v="ajustes">Ajustes</button>
+      </nav>
+      <div class="addr">
+        <span class="addr-label">Ruta</span>
+        <span class="field-inset addr-path"><span class="spark" aria-hidden="true"></span><span id="ruta">C:\ChrrysDump\Vender</span></span>
+        <span class="addr-status" id="sync">Cargando…</span>
+      </div>
+    </header>
+
+    <!-- ===== Portada ===== -->
+    <section class="hero">
+      <h1 class="hero-title"><span id="heroA">Chrrys</span><span class="hl" id="heroB">Dump</span><span class="star hero-star" aria-hidden="true"></span></h1>
+      <p class="hero-sub" id="heroSub">Punto de venta</p>
+    </section>
+
+    <main>
+      <!-- ===== Pantalla: VENDER ===== -->
+      <section class="view on" id="v-vender">
+        <div class="win">
+          <div class="titlebar">
+            <span class="ticon sm" aria-hidden="true"></span><span class="ttext">Artículos</span>
+            <span class="tbtns"><button class="tb" data-min title="Minimizar">_</button></span>
+          </div>
+          <div class="wbody">
+            <div class="toolbar">
+              <label class="lbl" for="q">Buscar</label>
+              <input class="field-inset sp" id="q" placeholder="nombre del artículo…" autocomplete="off">
+            </div>
+            <div class="chips" id="cats"></div>
+            <div class="grid" id="prods"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Pantalla: INVENTARIO ===== -->
+      <section class="view" id="v-inv">
+        <div class="win">
+          <div class="titlebar">
+            <span class="ticon sm" aria-hidden="true"></span><span class="ttext">Inventario</span>
+            <span class="tbtns"><button class="tb" data-min title="Minimizar">_</button></span>
+          </div>
+          <div class="wbody">
+            <div class="toolbar">
+              <label class="lbl" for="qi">Buscar</label>
+              <input class="field-inset sp" id="qi" placeholder="nombre o categoría…">
+              <button class="btn pri nowrap" id="addProd">+ Nuevo</button>
+            </div>
+            <div class="stats" id="invStats"></div>
+            <div class="list" id="invList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Pantalla: VENTA TOTAL DIARIA ===== -->
+      <section class="view" id="v-ventas">
+        <div class="win">
+          <div class="titlebar">
+            <span class="ticon sm" aria-hidden="true"></span><span class="ttext">Venta total diaria</span>
+            <span class="tbtns"><button class="tb" data-min title="Minimizar">_</button></span>
+          </div>
+          <div class="wbody">
+            <div class="toolbar">
+              <button class="btn" id="dPrev" aria-label="Día anterior">‹</button>
+              <input type="date" id="dSel" class="field-inset sp center">
+              <button class="btn" id="dNext" aria-label="Día siguiente">›</button>
+            </div>
+            <div class="stats" id="dayStats"></div>
+          </div>
+        </div>
+
+        <div class="win">
+          <div class="titlebar">
+            <span class="ticon sm" aria-hidden="true"></span><span class="ttext">Artículos vendidos</span>
+            <span class="tbtns"><button class="tb" data-min title="Minimizar">_</button></span>
+          </div>
+          <div class="wbody"><div class="list" id="dayItems"></div></div>
+        </div>
+
+        <div class="win">
+          <div class="titlebar">
+            <span class="ticon sm" aria-hidden="true"></span><span class="ttext">Tickets</span>
+            <span class="tbtns"><button class="tb" data-min title="Minimizar">_</button></span>
+          </div>
+          <div class="wbody"><div class="list" id="dayTickets"></div></div>
+        </div>
+
+        <button class="btn block" id="copyRep">Copiar corte del día</button>
+      </section>
+
+      <!-- ===== Pantalla: AJUSTES ===== -->
+      <section class="view" id="v-ajustes">
+        <div class="win">
+          <div class="titlebar">
+            <span class="ticon sm" aria-hidden="true"></span><span class="ttext">Fondo de pantalla</span>
+            <span class="tbtns"><button class="tb" data-min title="Minimizar">_</button></span>
+          </div>
+          <div class="wbody">
+            <div class="opciones">
+              <button class="opcion" data-fondo="retro">
+                <span class="opcion-prev prev-retro"></span>
+                <span>Retro (cuadrícula)</span>
+              </button>
+              <button class="opcion" data-fondo="imagen">
+                <span class="opcion-prev prev-imagen" id="fondoPrev"><span class="muted">Sin imagen</span></span>
+                <span>Mi imagen</span>
+              </button>
+            </div>
+
+            <div class="row mt">
+              <label class="btn" for="fondoFile">Elegir imagen…</label>
+              <input type="file" id="fondoFile" accept="image/*" hidden>
+              <button class="btn bad" id="fondoDel">Quitar imagen</button>
+            </div>
+
+            <div class="field mt" id="oscurecerBox">
+              <label for="fondoOscuro">Oscurecer la imagen: <span id="fondoOscuroVal">60%</span></label>
+              <input type="range" id="fondoOscuro" min="0" max="90" step="5" value="60">
+            </div>
+
+            <label class="check mt">
+              <input type="checkbox" id="fondoDeco" checked>
+              <span class="check-box" aria-hidden="true"></span>
+              Mostrar destellos y cruces decorativas
+            </label>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ===== Barra de tareas inferior: carrito y reloj ===== -->
+  <footer class="taskbar">
+    <button class="btn task-cart" id="openCart" disabled>
+      <span class="cart-ico" aria-hidden="true"></span>
+      <span id="cbCount">Carrito vacío</span>
+      <span class="sp"></span>
+      <span class="task-total" id="cbTotal">$0.00</span>
+    </button>
+    <span class="tray field-inset" id="clock">--:--</span>
+  </footer>
+
+  <!-- ===== Ventana: CARRITO ===== -->
+  <div class="sheet" id="cartSheet"><div class="win box">
+    <div class="titlebar">
+      <span class="ticon sm" aria-hidden="true"></span><span class="ttext">Carrito</span>
+      <span class="tbtns"><button class="tb" data-close title="Cerrar">×</button></span>
+    </div>
+    <div class="wbody">
+      <div class="list" id="cartLines"></div>
+      <div class="totals panel-inset">
+        <div class="tot"><span>Artículos</span><span id="ctItems">0</span></div>
+        <div class="tot big"><span>Total</span><span id="ctTotal">$0.00</span></div>
+      </div>
+      <div class="field"><label for="method">Método de pago</label><select id="method" class="field-inset"></select></div>
+      <div id="cashBox">
+        <div class="field"><label for="pay">Pago con (efectivo)</label><input id="pay" class="field-inset" type="number" inputmode="decimal" placeholder="0.00"></div>
+        <div class="quick" id="quick"></div>
+        <div class="tot"><span>Cambio</span><span class="change" id="change">—</span></div>
+      </div>
+      <div class="row mt">
+        <button class="btn bad" id="clearCart">Vaciar</button>
+        <button class="btn pri block sp" id="checkout">Cobrar y registrar</button>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- ===== Ventana: NUEVO / EDITAR ARTÍCULO ===== -->
+  <div class="sheet" id="prodSheet"><div class="win box">
+    <div class="titlebar">
+      <span class="ticon sm" aria-hidden="true"></span><span class="ttext" id="psTitle">Nuevo artículo</span>
+      <span class="tbtns"><button class="tb" data-close title="Cerrar">×</button></span>
+    </div>
+    <div class="wbody">
+      <div class="img-edit">
+        <div class="thumb lg" id="pImgPrev"></div>
+        <div class="img-actions">
+          <span class="lbl">Imagen (opcional)</span>
+          <label class="btn" for="pImgFile">Elegir imagen</label>
+          <input type="file" id="pImgFile" accept="image/*" hidden>
+          <button class="btn bad" id="pImgDel">Quitar imagen</button>
+        </div>
+      </div>
+      <div class="field"><label for="pName">Nombre</label><input id="pName" class="field-inset" placeholder="Ej. Refresco 600 ml"></div>
+      <div class="two">
+        <div class="field"><label for="pPrice">Precio de venta ($)</label><input id="pPrice" class="field-inset" type="number" inputmode="decimal" step="0.01"></div>
+        <div class="field"><label for="pCost">Costo ($, opcional)</label><input id="pCost" class="field-inset" type="number" inputmode="decimal" step="0.01"></div>
+      </div>
+      <div class="two">
+        <div class="field"><label for="pStock">Existencia</label><input id="pStock" class="field-inset" type="number" inputmode="numeric"></div>
+        <div class="field"><label for="pCat">Categoría</label><input id="pCat" class="field-inset" list="catList" placeholder="Ej. Bebidas"><datalist id="catList"></datalist></div>
+      </div>
+      <div class="row mt">
+        <button class="btn bad" id="pDel">Eliminar</button>
+        <span class="sp"></span>
+        <button class="btn" data-close>Cancelar</button>
+        <button class="btn pri" id="pSave">Guardar</button>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- ===== Ventana: CONFIRMACIÓN ===== -->
+  <div class="sheet" id="confSheet"><div class="win box sm-box">
+    <div class="titlebar">
+      <span class="ticon sm" aria-hidden="true"></span><span class="ttext" id="cfTitle">¿Seguro?</span>
+      <span class="tbtns"><button class="tb" data-close title="Cerrar">×</button></span>
+    </div>
+    <div class="wbody">
+      <p id="cfMsg"></p>
+      <div class="row"><span class="sp"></span><button class="btn" data-close>Cancelar</button><button class="btn pri" id="cfOk">Sí</button></div>
+    </div>
+  </div></div>
+
+  <!-- ===== Aviso flotante ===== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Orden importante: primero la configuración, luego el resto -->
+  <script src="js/config.js"></script>
+  <script src="js/utilidades.js"></script>
+  <script src="js/almacenamiento.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
